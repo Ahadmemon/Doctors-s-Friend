@@ -1,3 +1,3 @@
 ## Doctor's Friend - An OutPatient EHR System
 
-- [Website Link](www.google.com)
+- [Doctor's Friend](www.google.com)
