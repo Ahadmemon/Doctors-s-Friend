@@ -1,7 +1,8 @@
 {
-    "workbench.externalBrowser": "",
-    "liveServer.settings.CustomBrowser": null,
-    "dart.devToolsBrowser": "default",
-    "editor.fontFamily": "JetBrains Mono, Baloo Paaji 2,Menlo, Monaco, 'Courier New', monospace",
-    "notebook.output.wordWrap": true
+  "workbench.externalBrowser": "",
+  "liveServer.settings.CustomBrowser": null,
+  "dart.devToolsBrowser": "default",
+  "editor.fontFamily": "JetBrains Mono, Baloo Paaji 2,Menlo, Monaco, 'Courier New', monospace",
+  "notebook.output.wordWrap": true,
+  "github.copilot.chat.agent.autoFix": false
 }
