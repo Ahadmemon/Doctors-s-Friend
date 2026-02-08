@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 // creating new Schema
 const userSchema = new Schema(
     {
-        name: {
+        fullName: {
             type: String,
             required: true,
             trim: true,
@@ -18,31 +18,33 @@ const userSchema = new Schema(
         password: {
             type: String,
             required: [true, "Please enter your password"],
-            minLength: [8, "Password must be of atleast characters"],
+            minLength: [8, "Password must be atleast 8 characters long"],
             trim: true,
         },
         contactNumber: {
-            type: Number,
+            type: String,
             required: true,
+        },
+        profileImage: {
+            type: String,
+            trim: true,
         },
         role: {
             type: String,
             enum: ["Doctor", "Patient"],
             required: true,
-            default: "Doctor",
+            // default: "Patient",
             trim: true,
         },
     },
     { timestamps: true }
 );
 // Before saving data do the below working
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
     // Check whether password is modified or not:
-    if (!this.isModified("password")) return next();
+    if (!this.isModified("password")) return null;
     // else part
-    password = this.password;
-    password = await bcrypt.hash(password, 10);
-    next();
+    this.password = await bcrypt.hash(this.password, 10);
 });
 // Comparing password
 userSchema.methods.isPasswordCorrect = async function (password) {
@@ -52,7 +54,7 @@ userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
-            name: this.name,
+            fullName: this.fullName,
             email: this.email,
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -65,7 +67,7 @@ userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id,
-            name: this.name,
+            fullName: this.fullName,
             email: this.email,
         },
         process.env.REFRESH_TOKEN_SECRET,
