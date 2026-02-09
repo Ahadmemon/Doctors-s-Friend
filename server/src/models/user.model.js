@@ -36,6 +36,9 @@ const userSchema = new Schema(
             // default: "Patient",
             trim: true,
         },
+        refreshToken: {
+            type: String,
+        },
     },
     { timestamps: true }
 );
@@ -54,7 +57,6 @@ userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
-            fullName: this.fullName,
             email: this.email,
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -67,7 +69,6 @@ userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id,
-            fullName: this.fullName,
             email: this.email,
         },
         process.env.REFRESH_TOKEN_SECRET,
