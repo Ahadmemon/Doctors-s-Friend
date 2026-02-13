@@ -4,21 +4,21 @@ const followUpSchema = new Schema(
     {
         patient: {
             type: Schema.Types.ObjectId,
-            ref: "PatientForm",
-            required: true,
+            ref: "Patient",
+            // required: true,
         },
         doctor: {
             type: Schema.Types.ObjectId,
             ref: "Doctor",
-            required: true,
+            // required: true,
         },
         diseases: { type: [String], required: true },
         treatments: { type: String, required: true },
         notes: String,
-        visitDate: {
-            type: Date,
-            default: Date.now,
-        },
+        // visitDate: {
+        //     type: Date,
+        //     default: Date.now,
+        // },
     },
     { timestamps: true }
 );
