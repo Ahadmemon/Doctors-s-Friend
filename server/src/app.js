@@ -20,6 +20,8 @@ app.use(cookieParser());
 
 import userRouter from "./routes/user.routes.js";
 import patientRouter from "./routes/patient.routes.js";
+import followUpRouter from "./routes/followUp.routes.js";
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/patients", patientRouter);
+app.use("/api/v1/followUps", followUpRouter);
 export { app };

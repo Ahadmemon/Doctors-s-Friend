@@ -23,7 +23,12 @@ const userSchema = new Schema(
         },
         contactNumber: {
             type: String,
+            // required: true,
+        },
+        qualification: {
+            type: String,
             required: true,
+            trim: true,
         },
         profileImage: {
             type: String,
@@ -32,7 +37,7 @@ const userSchema = new Schema(
         role: {
             type: String,
             enum: ["Doctor", "Patient"],
-            required: true,
+            // required: true,
             // default: "Patient",
             trim: true,
         },

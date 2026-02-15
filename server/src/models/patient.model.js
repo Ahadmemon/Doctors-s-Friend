@@ -3,6 +3,10 @@ import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 import { FollowUp } from "./followUp.model.js";
 const patientSchema = new Schema(
     {
+        doctor: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
         name: {
             type: String,
             required: true,

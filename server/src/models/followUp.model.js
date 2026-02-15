@@ -5,12 +5,12 @@ const followUpSchema = new Schema(
         patient: {
             type: Schema.Types.ObjectId,
             ref: "Patient",
-            // required: true,
+            required: true,
         },
         doctor: {
             type: Schema.Types.ObjectId,
-            ref: "Doctor",
-            // required: true,
+            ref: "User",
+            required: true,
         },
         diseases: { type: [String], required: true },
         treatments: { type: String, required: true },
@@ -22,4 +22,4 @@ const followUpSchema = new Schema(
     },
     { timestamps: true }
 );
-export const FollowUp = new model("FollowUp", followUpSchema);
+export const FollowUp = model("FollowUp", followUpSchema);

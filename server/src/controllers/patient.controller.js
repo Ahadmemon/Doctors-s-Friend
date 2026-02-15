@@ -1,9 +1,9 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Patient } from "../models/patient.model.js";
+import { User } from "../models/user.model.js";
 import { FollowUp } from "../models/followUp.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import { User } from "../models/user.model.js";
 
 const addPatient = asyncHandler(async (req, res) => {
     const {
@@ -35,6 +35,7 @@ const addPatient = asyncHandler(async (req, res) => {
         throw new ApiError(400, "All fields required");
     }
     const patient = await Patient.create({
+        doctor: req.user._id,
         name,
         address,
         gender,
@@ -47,6 +48,7 @@ const addPatient = asyncHandler(async (req, res) => {
     }
     const patientFollowUp = await FollowUp.create({
         patient: patient._id,
+        doctor: req.user._id,
         diseases,
         treatments,
         notes,
@@ -60,7 +62,10 @@ const addPatient = asyncHandler(async (req, res) => {
 });
 
 const fetchPatients = asyncHandler(async (req, res) => {
-    const followUpData = await FollowUp.find().populate({ path: "patient" });
+    // populate() will replace patients ObjectId with actual patient data, as i am only saving ref(_id) of patient in followUp model
+    const followUpData = await FollowUp.find({ doctor: req.user._id }).populate(
+        { path: "patient" }
+    );
 
     if (!followUpData) {
         throw new ApiError(401, "No data found!");
@@ -88,8 +93,9 @@ const updatePatientDetails = asyncHandler(async (req, res) => {
         throw new ApiError(401, "No data found to update");
     }
     const updatedPatientData = await Patient.findByIdAndUpdate(
-        { _id: id },
-        { $set: updatedData }
+        id,
+        { $set: updatedData },
+        { new: true }
     );
     res.json(
         new ApiResponse(
