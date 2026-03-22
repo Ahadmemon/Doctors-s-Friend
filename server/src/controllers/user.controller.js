@@ -34,6 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
         // contactNumber,
         // role,
         registrationNumber,
+        qualification,
     } = req.body;
     // if (
     //     [
@@ -54,7 +55,8 @@ const registerUser = asyncHandler(async (req, res) => {
     //     throw new ApiError(400, "Galat shaks");
     //     // return res.status(400).json({ message: "Galat shaks" });
     // }
-    const existingUser = await User.findOne({ $or: [{ fullName }, { email }] });
+    const existingUser = await User.findOne({ email });
+    // const existingUser = await User.findOne({ $or: [{ fullName }, { email }] });
     const existingDoctor = await Doctor.findOne({ registrationNumber });
 
     if (existingUser || existingDoctor) {
@@ -66,6 +68,7 @@ const registerUser = asyncHandler(async (req, res) => {
         fullName,
         email,
         password,
+        qualification,
     });
 
     // const createdUser = await User.findById(user._id).select(
@@ -83,6 +86,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
         user._id
     );
+
     return res
         .status(201)
         .cookie("accessToken", accessToken, options)
@@ -120,6 +124,7 @@ const loginUser = asyncHandler(async (req, res) => {
     const loggedInUser = await User.findById(user._id).select(
         "-password -refreshToken"
     );
+    console.log(user);
 
     return res
         .cookie("accessToken", accessToken, options)

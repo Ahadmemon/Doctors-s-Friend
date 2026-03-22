@@ -25,24 +25,25 @@ const userSchema = new Schema(
             type: String,
             // required: true,
         },
-        qualification: {
-            type: String,
-            required: true,
-            trim: true,
-        },
+
         profileImage: {
             type: String,
             trim: true,
         },
-        role: {
-            type: String,
-            enum: ["Doctor", "Patient"],
-            // required: true,
-            // default: "Patient",
-            trim: true,
-        },
+        // role: {
+        //     type: String,
+        //     enum: ["Doctor", "Patient"],
+        //     // required: true,
+        //     // default: "Patient",
+        //     trim: true,
+        // },
         refreshToken: {
             type: String,
+        },
+        qualification: {
+            type: String,
+            required: true,
+            trim: true,
         },
     },
     { timestamps: true }

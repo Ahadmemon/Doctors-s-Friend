@@ -16,6 +16,7 @@ const addPatient = asyncHandler(async (req, res) => {
         diseases,
         treatments,
         notes,
+        status,
     } = req.body;
     // const verifiedUser = await User.findById(req.user._id);
     // if (!verifiedUser) {
@@ -30,7 +31,8 @@ const addPatient = asyncHandler(async (req, res) => {
         !weight ||
         !diseases ||
         !treatments ||
-        !notes
+        !notes ||
+        !status
     ) {
         throw new ApiError(400, "All fields required");
     }
@@ -42,6 +44,7 @@ const addPatient = asyncHandler(async (req, res) => {
         age,
         contactNumber,
         weight,
+        status,
     });
     if (!patient) {
         throw new ApiError(401, "No Patient added");
@@ -66,19 +69,22 @@ const fetchPatients = asyncHandler(async (req, res) => {
     const followUpData = await FollowUp.find({ doctor: req.user._id }).populate(
         { path: "patient" }
     );
+    // console.log(followUpData);
 
     if (!followUpData) {
         throw new ApiError(401, "No data found!");
     }
-    // FollowUp data contains each followup till date with ref to patient and it returns each followup so in folloup we have field called patient which has ref to Patient model thus we have to loop over each followup to access fields of followup model
-    followUpData.forEach((followUp) => {
-        const patient = followUp.patient;
-        const patientName = patient?.name;
-        const diseases = followUp.diseases.join(", ");
-        console.log(`${patient?.name} has diseases ${diseases}`);
+    // console.log(followUpData);
 
-        // diseases.map((disease) => console.log(`${disease}`));
-    });
+    // FollowUp data contains each followup till date with ref to patient and it returns each followup so in followup we have field called patient which has ref to Patient model thus we have to loop over each followup to access fields of followup model
+    // followUpData.forEach((followUp) => {
+    //     const patient = followUp.patient;
+    //     const patientName = patient?.name;
+    //     const diseases = followUp.diseases.join(", ");
+    //     console.log(`${patient?.name} has diseases ${diseases}`);
+
+    // diseases.map((disease) => console.log(`${disease}`));
+    // });
 
     res.json(
         new ApiResponse(200, "Data fetched successfully", {

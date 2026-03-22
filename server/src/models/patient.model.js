@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+// import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 import { FollowUp } from "./followUp.model.js";
 const patientSchema = new Schema(
     {
@@ -32,13 +32,13 @@ const patientSchema = new Schema(
         //     required: true,
         //     trim: true,
         // },
+        status: { type: String, required: true },
         age: { type: String, required: true },
         contactNumber: { type: String, required: true },
         weight: { type: String, required: true },
     },
     { timestamps: true }
 );
-patientSchema.plugin(mongooseAggregatePaginate);
 patientSchema.pre("findOneAndDelete", async function () {
     const patient = await this.model.findOne(this.getFilter());
     if (patient) {
@@ -46,3 +46,5 @@ patientSchema.pre("findOneAndDelete", async function () {
     }
 });
 export const Patient = model("Patient", patientSchema);
+
+// patientSchema.plugin(mongooseAggregatePaginate);

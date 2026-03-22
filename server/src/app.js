@@ -23,5 +23,5 @@ import patientRouter from "./routes/patient.routes.js";
 import followUpRouter from "./routes/followUp.routes.js";
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/patients", patientRouter);
-app.use("/api/v1/followUps", followUpRouter);
+app.use("/api/v1/followUp", followUpRouter);
 export { app };
