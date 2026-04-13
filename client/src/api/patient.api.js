@@ -9,7 +9,7 @@ const fetchPatients = (params = {}) => {
 };
 
 const getPatientById = (id) => {
-  return API.get(`/patients/updatePatient/${id}`);
+  return API.get(`/patients/getPatientDetails/${id}`);
 };
 
 const updatePatient = (id, data) => {
@@ -27,6 +27,11 @@ const addFollowUp = (id, data) => {
 const getPatientFollowUps = (id) => {
   return API.get(`/followUp/fetchFollowUps/${id}`);
 };
+// Schedule follow-up API
+const scheduleFollowUp = (patientId, data) => {
+  // Backend route expects patientId in body
+  return API.post(`patients/scheduleFollowUp`, { patientId, ...data });
+};
 export {
   addPatient,
   fetchPatients,
@@ -35,4 +40,5 @@ export {
   deletePatient,
   addFollowUp,
   getPatientFollowUps,
+  scheduleFollowUp,
 };

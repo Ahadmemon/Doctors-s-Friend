@@ -21,7 +21,17 @@ app.use(cookieParser());
 import userRouter from "./routes/user.routes.js";
 import patientRouter from "./routes/patient.routes.js";
 import followUpRouter from "./routes/followUp.routes.js";
+import doctorRouter from "./routes/doctor.routes.js";
+import appointmentRouter from "./routes/appointment.routes.js";
+import notificationRouter from "./routes/notification.routes.js";
+import chatRoutes from "./routes/chatBot.routes.js";
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/patients", patientRouter);
 app.use("/api/v1/followUp", followUpRouter);
+app.use("/api/v1/doctors", doctorRouter);
+app.use("/api/v1/appointments", appointmentRouter);
+app.use("/api/v1/notifications", notificationRouter);
+app.use("/api/v1/chat", chatRoutes);
+
 export { app };

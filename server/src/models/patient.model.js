@@ -3,10 +3,7 @@ import { Schema, model } from "mongoose";
 import { FollowUp } from "./followUp.model.js";
 const patientSchema = new Schema(
     {
-        doctor: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-        },
+        doctor: { type: Schema.Types.ObjectId, ref: "User" },
         name: {
             type: String,
             required: true,
@@ -32,10 +29,10 @@ const patientSchema = new Schema(
         //     required: true,
         //     trim: true,
         // },
-        status: { type: String, required: true },
+        weight: { type: String, required: true },
+        status: { type: String },
         age: { type: String, required: true },
         contactNumber: { type: String, required: true },
-        weight: { type: String, required: true },
     },
     { timestamps: true }
 );

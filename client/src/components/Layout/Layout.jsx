@@ -90,7 +90,8 @@ function Layout() {
       setLoading(false);
     }
   };
-  //Filter by name and contact
+
+  // Filter by name and contact
   const filteredPatients = useMemo(() => {
     return patients.filter((p) => {
       const name = (p.name || "").toLowerCase();
@@ -116,37 +117,46 @@ function Layout() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 50 }}
       transition={{ duration: 0.9 }}
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      className="min-h-screen bg-gray-100 px-2 sm:px-4 lg:px-6 py-6"
     >
-      <div className="min-h-screen bg-gray-50">
-        <TopBar />
+      {/* White Card Container */}
+      <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow-md p-4 md:p-8">
+        {/* Top Bar */}
+        <div className="mb-4">
+          <TopBar />
+        </div>
 
+        {/* Loading/Error */}
         {loading && (
-          <div className="max-w-7xl mx-auto px-4 py-6 text-center">
+          <div className="py-4 text-center text-gray-500">
             Loading patients...
           </div>
         )}
+        {error && <div className="py-4 text-center text-red-600">{error}</div>}
 
-        {error && (
-          <div className="max-w-7xl mx-auto px-4 py-6 text-center text-red-600">
-            {error}
-          </div>
-        )}
+        {/* Status Cards */}
+        <div className="mb-4">
+          <StatusCards
+            patients={patients}
+            statusFilter={statusFilter}
+            setStatusFilter={setStatusFilter}
+          />
+        </div>
 
-        <StatusCards
-          patients={patients}
-          statusFilter={statusFilter}
-          setStatusFilter={setStatusFilter}
-        />
+        {/* Search Box */}
+        <div className="mb-4">
+          <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        </div>
 
-        <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
-        <PatientList
-          patients={filteredPatients}
-          removePatient={removePatient}
-          loading={loading}
-          error={error}
-        />
+        {/* Patient List */}
+        <div>
+          <PatientList
+            patients={filteredPatients}
+            removePatient={removePatient}
+            loading={loading}
+            error={error}
+          />
+        </div>
       </div>
     </motion.div>
   );

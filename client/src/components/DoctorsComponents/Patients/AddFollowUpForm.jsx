@@ -11,21 +11,21 @@ function AddFollowUp() {
   const [diseases, setDiseases] = useState("");
   const [treatments, setTreatments] = useState("");
   const [notes, setNotes] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const followUpData = {
-      diseases: diseases.split(",").map((d) => d.trim()),
-      treatments,
-      notes,
-    };
+    setError("");
 
     try {
-      await addFollowUp(id, followUpData);
+      await addFollowUp(id, {
+        diseases: diseases.trim(),
+        treatments,
+        notes,
+      });
       navigate(`/patient/${id}`);
     } catch (err) {
-      console.error("Follow-up error:", err);
+      setError("Failed to add follow-up");
     }
   };
 
@@ -35,67 +35,66 @@ function AddFollowUp() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex justify-center items-center"
+      className="min-h-screen bg-gray-100 flex justify-center px-2 sm:px-4 lg:px-6 py-6"
     >
-      <div className="bg-white rounded-xl shadow-md p-6 w-full max-w-xl">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Add Follow-up</h2>
+      <div className="w-full max-w-xl bg-white rounded-2xl shadow-md p-4 md:p-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-4"
+        >
+          <ArrowLeft size={20} />
+          Back
+        </button>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">Add Follow-up</h2>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-lg mb-4 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">Diseases</label>
-
+            <label className="block text-sm font-medium mb-1">Diseases</label>
             <input
               type="text"
               value={diseases}
               onChange={(e) => setDiseases(e.target.value)}
-              placeholder="Example: Diabetes, Hypertension"
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+              placeholder="Diabetes, Hypertension"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
-
-            <p className="text-xs text-gray-500 mt-1">
-              Separate multiple diseases using comma
-            </p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Treatments</label>
-
+            <label className="block text-sm font-medium mb-1">Treatments</label>
             <textarea
               rows="3"
               required
               value={treatments}
               onChange={(e) => setTreatments(e.target.value)}
-              placeholder="Prescribed medicines or therapy"
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Doctor Notes
-            </label>
-
+            <label className="block text-sm font-medium mb-1">Notes</label>
             <textarea
               rows="3"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Extra observations"
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
             />
           </div>
 
-          <div className="flex gap-4">
-            <button
-              type="submit"
-              className="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700"
-            >
-              Save Follow-up
+          <div className="flex gap-3 pt-2">
+            <button className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
+              Save
             </button>
-
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="flex-1 bg-gray-200 py-3 rounded-lg"
+              className="flex-1 bg-gray-200 py-2 rounded-lg"
             >
               Cancel
             </button>

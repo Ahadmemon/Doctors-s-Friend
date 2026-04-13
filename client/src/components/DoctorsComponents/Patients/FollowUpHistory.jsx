@@ -28,7 +28,7 @@ function FollowUpHistory() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="min-h-screen bg-gray-100 flex justify-center items-center">
         Loading follow-ups...
       </div>
     );
@@ -36,54 +36,66 @@ function FollowUpHistory() {
 
   return (
     <motion.div
-      i
       initial={{ opacity: 0, x: 50 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -50 }}
       transition={{ duration: 0.5 }}
-      className="max-w-4xl mx-auto px-4 py-8"
+      className="min-h-screen bg-gray-100 flex justify-center px-2 sm:px-4 lg:px-6 py-6"
     >
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        Follow-up History
-      </h2>
-
-      <div className="space-y-5">
-        {followUps.map((f) => (
-          <div
-            key={f._id}
-            className="bg-white border border-gray-200 rounded-xl shadow-sm p-5"
+      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-md p-4 md:p-8">
+        {/* Top Bar */}
+        <div className="flex items-center gap-3 mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-gray-600 hover:text-gray-800"
           >
-            <p className="text-sm text-gray-500 mb-2">
-              {new Date(f.createdAt).toLocaleDateString()}
-            </p>
+            <ArrowLeft size={20} />
+          </button>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+            Follow-up History
+          </h2>
+        </div>
 
-            <div className="mb-3">
-              <p className="font-semibold text-gray-800 mb-1">Diseases</p>
-              <div className="flex flex-wrap gap-2">
-                {f.diseases.map((d, i) => (
-                  <span
-                    key={i}
-                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-                  >
-                    {d}
-                  </span>
-                ))}
+        {/* Content */}
+        <div className="space-y-4">
+          {followUps.map((f) => (
+            <div
+              key={f._id}
+              className="border border-gray-200 rounded-xl p-4 md:p-5 hover:shadow-sm transition"
+            >
+              {/* Date */}
+              <p className="text-xs text-gray-500 mb-2">
+                {new Date(f.createdAt).toLocaleDateString()}
+              </p>
+
+              {/* Diseases */}
+              {f.diseases && (
+                <div className="mb-2">
+                  <p className="text-sm font-semibold text-gray-800">
+                    Diseases
+                  </p>
+                  <p className="text-gray-700 text-sm">{f.diseases}</p>
+                </div>
+              )}
+
+              {/* Treatments */}
+              <div className="mb-2">
+                <p className="text-sm font-semibold text-gray-800">
+                  Treatments
+                </p>
+                <p className="text-gray-700 text-sm">{f.treatments}</p>
               </div>
-            </div>
 
-            <div className="mb-3">
-              <p className="font-semibold text-gray-800">Treatments</p>
-              <p className="text-gray-700">{f.treatments}</p>
+              {/* Notes */}
+              {f.notes && (
+                <div>
+                  <p className="text-sm font-semibold text-gray-800">Notes</p>
+                  <p className="text-gray-700 text-sm">{f.notes}</p>
+                </div>
+              )}
             </div>
-
-            {f.notes && (
-              <div>
-                <p className="font-semibold text-gray-800">Notes</p>
-                <p className="text-gray-700">{f.notes}</p>
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </motion.div>
   );

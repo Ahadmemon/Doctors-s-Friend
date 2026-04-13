@@ -12,7 +12,7 @@ const followUpSchema = new Schema(
             ref: "User",
             required: true,
         },
-        diseases: { type: [String], required: true },
+        diseases: { type: String, required: true },
         treatments: { type: String, required: true },
         notes: String,
         // visitDate: {

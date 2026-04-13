@@ -4,6 +4,7 @@ import {
     registerUser,
     logoutUser,
     updateProfile,
+    getMe,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -19,4 +20,5 @@ router.post("/login", loginUser);
 router.post("/logout", verifyJWT, logoutUser);
 router.patch("/updateProfile", verifyJWT, updateProfile);
 
+router.get("/me", verifyJWT, getMe);
 export default router;

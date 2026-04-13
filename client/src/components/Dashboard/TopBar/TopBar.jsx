@@ -1,4 +1,4 @@
-import { LogOut, User, Bell } from "lucide-react";
+import { LogOut, User, Calendar } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -6,15 +6,13 @@ function TopBar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const notificationCount = 1; // later fetch from API
-
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
   };
 
-  const goToNotifications = () => {
-    navigate(`/patients/notifications`);
+  const goToAppointments = () => {
+    navigate("/patients/appointments"); // adjust if your route is different
   };
 
   return (
@@ -23,30 +21,33 @@ function TopBar() {
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="bg-indigo-600 w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold">
-            EHR
+            DF
           </div>
           <div>
-            <h1 className="text-lg font-semibold text-gray-800">EHR System</h1>
-            <p className="text-xs text-gray-500">Healthcare Management</p>
+            <h1 className="text-lg font-semibold text-gray-800">
+              Doctor's Friend
+            </h1>
+            <p className="text-xs text-gray-500">Patient Record System</p>
           </div>
         </div>
 
         {/* Right Section */}
         <div className="hidden md:flex items-center gap-6">
-          {/* Notification */}
-          <div className="relative cursor-pointer" onClick={goToNotifications}>
-            <Bell className="text-gray-600 hover:text-indigo-600" size={20} />
-
-            {notificationCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
-                {notificationCount}
-              </span>
-            )}
-          </div>
+          {/* Appointments Button */}
+          <button
+            onClick={goToAppointments}
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+          >
+            <Calendar size={18} />
+            Appointments
+          </button>
 
           {/* User */}
           {user && (
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => navigate("/profile")}
+            >
               <div className="w-9 h-9 bg-indigo-100 rounded-full flex items-center justify-center">
                 <User size={16} className="text-indigo-600" />
               </div>
@@ -62,7 +63,10 @@ function TopBar() {
               </div>
 
               <button
-                onClick={handleLogout}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleLogout();
+                }}
                 className="text-red-600 p-2 rounded hover:bg-red-50"
               >
                 <LogOut size={16} />

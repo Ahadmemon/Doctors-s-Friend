@@ -5,6 +5,7 @@ const patientSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User",
         },
+        fullName: { type: String, required: true, trim: true },
         address: {
             type: String,
             required: true,
@@ -16,9 +17,8 @@ const patientSchema = new Schema(
             enum: ["Male", "Female", "Other"],
         },
         age: { type: Number, required: true },
-        contact: { type: Number, required: true },
-        weight: { type: Number, required: true },
+        mobile: { type: Number, required: true },
     },
     { timestamps: true }
 );
-export const Patient = model("Patient", patientSchema);
+export const PatientProfile = model("PatientProfile", patientSchema);
